@@ -1,12 +1,76 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Home</title>
-
+ <meta charset="UTF-8">
+ <meta name="viewport" content="width=device-width, initial-scale=1.0">
+ <title>Home</title>
+<style>
+ body {
+ background: linear-gradient(to right, #a1c4fd, #c2e9fb);
+ font-family: Arial, sans-serif;
+ text-align: center;
+ margin: 0;
+ padding: 0;
+ }
+ .container {
+ width: 80%;
+ margin: 20px auto;
+ padding: 20px;
+ background-color: #fff;
+ border-radius: 8px;
+ box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+ }
+h1, h2 {
+ color: #333;
+ }
+table {
+ width: 100%;
+ border-collapse: collapse;
+ margin-top: 20px;
+ box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+ }
+ th, td {
+ border: 1px solid #ddd;
+padding: 12px;
+ text-align: left;
+ }
+th {
+ background-color: #4CAF50;
+color: white;
+ }
+ tr:nth-child(even) {
+ background-color: #f2f2f2;
+}
+ tr:hover {
+ background-color: #ddd;
+ }
+ td {
+ background-color: #fff;
+ color: #333;
+ }
+ </style>
 </head>
 <body>
-    <h1 style="text-align: center;">Welcome to Home Page</h1>
+ <div class="container">
+ <h1>Welcome to the Home Page</h1>
+ <h2>Registered Users</h2>
+ <table>
+ <thead>
+ <tr>
+<th style="background-color: #4CAF50; color: white;">Name</th>
+ <th style="background-color: #4CAF50; color: white;">Email</th>
+ </tr>
+ </thead>
+ <tbody>
+ <!-- Replace with your dynamic user rendering logic -->
+ <% users.forEach(user => { %>
+ <tr>
+ <td><%= user.name %></td>
+<td><%= user.email %></td>
+ </tr>
+<% }); %>
+ </tbody>
+</table>
+</div>
 </body>
 </html>
