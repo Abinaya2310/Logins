@@ -9,7 +9,7 @@ mongoose.connect("mongodb://localhost:27017/Login", { useNewUrlParser: true, use
         console.error(error);
     });
 
-const Loginschema = new mongoose.Schema({
+const userSchema = new mongoose.Schema({
     name: {
         type: String,
         required: true
@@ -22,9 +22,10 @@ const Loginschema = new mongoose.Schema({
         type: String,
         required: true,
         unique: true
-    }
+    },
+    students: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Student' }]
 });
 
-const collection = mongoose.model("users1", Loginschema);
+const User = mongoose.model("User", userSchema);
 
-module.exports = collection;
+module.exports = User;

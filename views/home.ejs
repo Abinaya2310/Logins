@@ -1,76 +1,428 @@
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
- <meta charset="UTF-8">
- <meta name="viewport" content="width=device-width, initial-scale=1.0">
- <title>Home</title>
-<style>
- body {
- background: linear-gradient(to right, #a1c4fd, #c2e9fb);
- font-family: Arial, sans-serif;
- text-align: center;
- margin: 0;
- padding: 0;
- }
- .container {
- width: 80%;
- margin: 20px auto;
- padding: 20px;
- background-color: #fff;
- border-radius: 8px;
- box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
- }
-h1, h2 {
- color: #333;
- }
-table {
- width: 100%;
- border-collapse: collapse;
- margin-top: 20px;
- box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
- }
- th, td {
- border: 1px solid #ddd;
-padding: 12px;
- text-align: left;
- }
-th {
- background-color: #4CAF50;
-color: white;
- }
- tr:nth-child(even) {
- background-color: #f2f2f2;
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Home</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <style>
+        body {
+            background: linear-gradient(to right, #a1c4fd, #c2e9fb);
+            font-family: Arial, sans-serif;
+            text-align: center;
+            margin: 0;
+            padding: 0;
+        }
+        .container {
+            width: 80%;
+            margin: 20px auto;
+            padding: 20px;
+            background-color: #fff;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            position: relative;
+        }
+        h1, h2 {
+            color: #333;
+            font-family: 'Comic Sans MS', 'Arial Black', sans-serif;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+        th, td {
+            border: 1px solid #ddd;
+            padding: 12px;
+            text-align: left;
+            font-family: 'Comic Sans MS', 'Arial Black', sans-serif;
+        }
+        th {
+            background-color: #4CAF50;
+            color: white;
+        }
+        tr:nth-child(even) {
+            background-color: #f2f2f2;
+        }
+        tr:hover {
+            background-color: #ddd;
+        }
+        td {
+            background-color: #fff;
+            color: #333;
+        }
+        button.add {
+            background-color: #4CAF50;
+            color: white;
+            padding: 10px 20px;
+            margin: 5px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 16px;
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            display: flex;
+            align-items: center;
+            font-family: 'Comic Sans MS', 'Arial Black', sans-serif;
+        }
+        button.add i {
+            margin-right: 8px;
+        }
+        button.action-btn {
+            background: none;
+            border: none;
+            cursor: pointer;
+            padding: 0;
+        }
+        button.action-btn i {
+            font-size: 18px;
+            color: #333;
+        }
+        button.action-btn.edit i {
+            color: #4CAF50;
+        }
+        button.action-btn.delete i {
+            color: #f44336;
+        }
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 1;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            overflow: auto;
+            background-color: rgba(0, 0, 0, 0.5);
+        }
+        .modal-content {
+            background-color: #fff;
+            margin: 15% auto;
+            padding: 20px;
+            border: 1px solid #888;
+            width: 60%;
+            border-radius: 8px;
+            text-align: left;
+        }
+        .close {
+            color: #aaa;
+            float: right;
+            font-size: 28px;
+            font-weight: bold;
+        }
+        .close:hover,
+        .close:focus {
+            color: black;
+            text-decoration: none;
+            cursor: pointer;
+        }
+        .form-group {
+            margin-bottom: 15px;
+            text-align: left;
+        }
+        .form-group label {
+            display: block;
+            margin-bottom: 5px;
+        }
+        .form-group input {
+            width: calc(100% - 22px); /* Adjust for padding */
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+        }
+        .error {
+    color: #f44336; /* Red color for errors */
+    font-size: 14px;
+    margin-top: 5px;
+    display: block; /* Ensure it displays on a new line */
 }
- tr:hover {
- background-color: #ddd;
- }
- td {
- background-color: #fff;
- color: #333;
- }
- </style>
+
+.error::before {
+    content: ""; /* Add a star before the error message */
+    color: #f44336; /* Color for the star */
+}
+
+
+    </style>
+
 </head>
 <body>
- <div class="container">
- <h1>Welcome to the Home Page</h1>
- <h2>Registered Users</h2>
- <table>
- <thead>
- <tr>
-<th style="background-color: #4CAF50; color: white;">Name</th>
- <th style="background-color: #4CAF50; color: white;">Email</th>
- </tr>
- </thead>
- <tbody>
- <!-- Replace with your dynamic user rendering logic -->
- <% users.forEach(user => { %>
- <tr>
- <td><%= user.name %></td>
-<td><%= user.email %></td>
- </tr>
-<% }); %>
- </tbody>
-</table>
-</div>
+    <div class="container">
+        <h1>Students Mark List</h1>
+        <button class="add" onclick="openAddModal()">
+            <i class="fas fa-plus"></i> Add Student
+        </button>
+        <table>
+            <thead>
+                <tr>
+                    <th>Name</th>
+                    <th>Email</th>
+                    <th>Roll no.</th>
+                    <th>Physics Marks</th>
+                    <th>Chemistry Marks</th>
+                    <th>Biology Marks</th>
+                    <th>Maths Marks</th>
+                    <th>Overall Marks</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                <!-- Rows will be dynamically added here -->
+            </tbody>
+        </table>
+    </div>
+
+    <!-- Add Modal -->
+    <div id="addModal" class="modal">
+        <div class="modal-content">
+            <span class="close" onclick="closeAddModal()">&times;</span>
+            <h2>Add New Student</h2>
+            <form id="newStudentForm">
+                <div class="form-group">
+                    <label for="newStudentName">Name:</label>
+                    <input type="text" id="newStudentName" name="name">
+                    <span id="errorName" class="error"></span>
+                </div>
+                <div class="form-group">
+                    <label for="newStudentEmail">Email:</label>
+                    <input type="text" id="newStudentEmail" name="email">
+                    <span id="errorEmail" class="error"></span>
+                </div>
+                <div class="form-group">
+                    <label for="newStudentRollNo">Roll no.:</label>
+                    <input type="text" id="newStudentRollNo" name="rollNo">
+                    <span id="errorRollNo" class="error"></span>
+                </div>
+                <div class="form-group">
+                    <label for="newStudentPhysicsMarks">Physics Marks:</label>
+                    <input type="number" id="newStudentPhysicsMarks" name="physicsMarks">
+                    <span id="errorPhysicsMarks" class="error"></span>
+                </div>
+                <div class="form-group">
+                    <label for="newStudentChemistryMarks">Chemistry Marks:</label>
+                    <input type="number" id="newStudentChemistryMarks" name="chemistryMarks">
+                    <span id="errorChemistryMarks" class="error"></span>
+                </div>
+                <div class="form-group">
+                    <label for="newStudentBiologyMarks">Biology Marks:</label>
+                    <input type="number" id="newStudentBiologyMarks" name="biologyMarks">
+                    <span id="errorBiologyMarks" class="error"></span>
+                </div>
+                <div class="form-group">
+                    <label for="newStudentMathsMarks">Maths Marks:</label>
+                    <input type="number" id="newStudentMathsMarks" name="mathsMarks">
+                    <span id="errorMathsMarks" class="error"></span>
+                </div>
+                <div class="form-group">
+                    <label for="newStudentOverallMarks">Overall Marks:</label>
+                    <input type="number" id="newStudentOverallMarks" name="overallMarks">
+                    <span id="errorOverallMarks" class="error"></span>
+                </div>
+                <button type="button" onclick="addStudent()">Add</button>
+            </form>
+        </div>
+    </div>
+
+    <!-- Edit Modal -->
+    <div id="editModal" class="modal">
+        <div class="modal-content">
+            <span class="close" onclick="closeEditModal()">&times;</span>
+            <h2>Edit Student</h2>
+            <form id="editStudentForm">
+                <input type="hidden" id="editStudentRollNo">
+                <div class="form-group">
+                    <label for="editStudentName">Name:</label>
+                    <input type="text" id="editStudentName" name="name">
+                </div>
+                <div class="form-group">
+                    <label for="editStudentEmail">Email:</label>
+                    <input type="text" id="editStudentEmail" name="email">
+                </div>
+                <div class="form-group">
+                    <label for="editStudentPhysicsMarks">Physics Marks:</label>
+                    <input type="number" id="editStudentPhysicsMarks" name="physicsMarks">
+                </div>
+                <div class="form-group">
+                    <label for="editStudentChemistryMarks">Chemistry Marks:</label>
+                    <input type="number" id="editStudentChemistryMarks" name="chemistryMarks">
+                </div>
+                <div class="form-group">
+                    <label for="editStudentBiologyMarks">Biology Marks:</label>
+                    <input type="number" id="editStudentBiologyMarks" name="biologyMarks">
+                </div>
+                <div class="form-group">
+                    <label for="editStudentMathsMarks">Maths Marks:</label>
+                    <input type="number" id="editStudentMathsMarks" name="mathsMarks">
+                </div>
+                <div class="form-group">
+                    <label for="editStudentOverallMarks">Overall Marks:</label>
+                    <input type="number" id="editStudentOverallMarks" name="overallMarks">
+                </div>
+                <button type="button" onclick="updateStudent()">Update</button>
+            </form>
+        </div>
+    </div>
+
+    <script>
+        const students = []; // Store student data
+        const apiUrl = '/students'; // Adjust URL as needed
+
+        document.addEventListener('DOMContentLoaded', fetchStudents);
+
+        function fetchStudents() {
+            fetch(apiUrl)
+                .then(response => response.json())
+                .then(data => {
+                    students.push(...data);
+                    renderStudents();
+                })
+                .catch(error => console.error('Error fetching students:', error));
+        }
+
+        function renderStudents() {
+            const tbody = document.querySelector('tbody');
+            tbody.innerHTML = '';
+            students.forEach(student => {
+                const tr = document.createElement('tr');
+                tr.innerHTML = `
+                    <td>${student.name}</td>
+                    <td>${student.email}</td>
+                    <td>${student.rollNo}</td>
+                    <td>${student.physicsMarks}</td>
+                    <td>${student.chemistryMarks}</td>
+                    <td>${student.biologyMarks}</td>
+                    <td>${student.mathsMarks}</td>
+                    <td>${student.overallMarks}</td>
+                    <td>
+                        <button class="action-btn edit" onclick="openEditModal('${student.rollNo}')"><i class="fas fa-edit"></i></button>
+                        <button class="action-btn delete" onclick="deleteStudent('${student.rollNo}')"><i class="fas fa-trash"></i></button>
+                    </td>
+                `;
+                tbody.appendChild(tr);
+            });
+        }
+
+        function openAddModal() {
+            document.getElementById('addModal').style.display = 'block';
+        }
+
+        function closeAddModal() {
+            document.getElementById('addModal').style.display = 'none';
+        }
+
+        function openEditModal(rollNo) {
+            const student = students.find(s => s.rollNo === rollNo);
+            if (student) {
+                document.getElementById('editStudentRollNo').value = student.rollNo;
+                document.getElementById('editStudentName').value = student.name;
+                document.getElementById('editStudentEmail').value = student.email;
+                document.getElementById('editStudentPhysicsMarks').value = student.physicsMarks;
+                document.getElementById('editStudentChemistryMarks').value = student.chemistryMarks;
+                document.getElementById('editStudentBiologyMarks').value = student.biologyMarks;
+                document.getElementById('editStudentMathsMarks').value = student.mathsMarks;
+                document.getElementById('editStudentOverallMarks').value = student.overallMarks;
+                document.getElementById('editModal').style.display = 'block';
+            }
+        }
+
+        function closeEditModal() {
+            document.getElementById('editModal').style.display = 'none';
+        }
+
+        function addStudent() {
+            const name = document.getElementById('newStudentName').value;
+            const email = document.getElementById('newStudentEmail').value;
+            const rollNo = document.getElementById('newStudentRollNo').value;
+            const physicsMarks = document.getElementById('newStudentPhysicsMarks').value;
+            const chemistryMarks = document.getElementById('newStudentChemistryMarks').value;
+            const biologyMarks = document.getElementById('newStudentBiologyMarks').value;
+            const mathsMarks = document.getElementById('newStudentMathsMarks').value;
+            const overallMarks = document.getElementById('newStudentOverallMarks').value;
+
+            const errors = {};
+            if (!name) errors.name = '*Name is required';
+            if (!email) errors.email = '*Email is required';
+            if (!rollNo) errors.rollNo = '*Roll no. is required';
+            if (!physicsMarks) errors.physicsMarks = '*Physics marks are required';
+            if (!chemistryMarks) errors.chemistryMarks = '*Chemistry marks are required';
+            if (!biologyMarks) errors.biologyMarks = '*Biology marks are required';
+            if (!mathsMarks) errors.mathsMarks = '*Maths marks are required';
+            if (!overallMarks) errors.overallMarks = '*Overall marks are required';
+
+            if (Object.keys(errors).length > 0) {
+                Object.keys(errors).forEach(key => {
+                    document.getElementById(`error${key.charAt(0).toUpperCase() + key.slice(1)}`).textContent = errors[key];
+                });
+                return;
+            }
+
+            const student = { name, email, rollNo, physicsMarks, chemistryMarks, biologyMarks, mathsMarks, overallMarks };
+            fetch(apiUrl, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(student)
+            })
+            .then(response => response.json())
+            .then(data => {
+                students.push(data);
+                renderStudents();
+                closeAddModal();
+                document.getElementById('newStudentForm').reset();
+            })
+            .catch(error => console.error('Error adding student:', error));
+        }
+
+        function updateStudent() {
+            const rollNo = document.getElementById('editStudentRollNo').value;
+            const name = document.getElementById('editStudentName').value;
+            const email = document.getElementById('editStudentEmail').value;
+            const physicsMarks = document.getElementById('editStudentPhysicsMarks').value;
+            const chemistryMarks = document.getElementById('editStudentChemistryMarks').value;
+            const biologyMarks = document.getElementById('editStudentBiologyMarks').value;
+            const mathsMarks = document.getElementById('editStudentMathsMarks').value;
+            const overallMarks = document.getElementById('editStudentOverallMarks').value;
+
+            const student = { name, email, rollNo, physicsMarks, chemistryMarks, biologyMarks, mathsMarks, overallMarks };
+
+            fetch(`${apiUrl}/${rollNo}`, {
+                method: 'PUT',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(student)
+            })
+            .then(response => response.json())
+            .then(data => {
+                const index = students.findIndex(s => s.rollNo === rollNo);
+                if (index !== -1) {
+                    students[index] = data;
+                    renderStudents();
+                    closeEditModal();
+                    document.getElementById('editStudentForm').reset();
+                }
+            })
+            .catch(error => console.error('Error updating student:', error));
+        }
+
+        function deleteStudent(rollNo) {
+            fetch(`${apiUrl}/${rollNo}`, {
+                method: 'DELETE'
+            })
+            .then(() => {
+                const index = students.findIndex(s => s.rollNo === rollNo);
+                if (index !== -1) {
+                    students.splice(index, 1);
+                    renderStudents();
+                }
+            })
+            .catch(error => console.error('Error deleting student:', error));
+        }
+    </script>
 </body>
 </html>

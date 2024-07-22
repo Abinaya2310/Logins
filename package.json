@@ -5,7 +5,7 @@
     "ejs": "^3.1.10",
     "express": "^4.19.2",
     "glob": "^10.4.2",
-    "mongoose": "^8.4.3",
+    "mongoose": "^8.5.1",
     "react-data-table-component": "^7.6.2",
     "rimraf": "^5.0.7",
     "sharp": "^0.33.4"
